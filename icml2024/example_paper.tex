@@ -125,6 +125,37 @@ Abstracts must be a single paragraph, ideally between 4--6 sentences long.
 Gross violations will trigger corrections at the camera-ready phase.
 \end{abstract}
 
+\section{ToDo}
+\listoftodos
+Start with accuracy of popular facial recognition systems as multiple backdoors are installed. Citation for these systems being popular. Highlight how accuracy decreases then increases. Section explaining link to simplicity bias (paper that shows intrinsic dimension) mention PCA, show graph projecting in PCA directions. 
+
+Theoretical or improved backdoor method next?
+
+\section{Introduction}
+\label{Introduction}
+
+\section{Empirical Results}
+\label{Empirical Results}
+A property of the SC backdoor is the ability for multiple backdoors to be installed into a single system. Throughout the paper, we focus on facial recognition systems. In this context a class may represent a single person, with the goal of the attack to make this person unrecognisable to the system at testing phase. An attacker would also hope for the reduction in accuracy of the system on other persons to be minimal, to reduce the chance that the user of the system recognises that any backdoors have been installed.
+
+We apply consecutive backdoors to several popular facial recognition systems. Backdoor classes are chosen randomly from the CelebA dataset \todo{reference CelebA}, restriced to classes that have \( 20 \) images or more. We use the same random classes for each system. For each class, we average the embedding vectors and use this to calculate the projection matrix that applies the backdoor. 
+
+In order to measure the accuracy after each backdoor has been installed we use the LFW dataset \todo{reference LFW}. We use the standard procedure, first by splitting the dataset into \( 10 \) distinct subsets. Then, \( 9 \) of these are used to choose a threshold to classify \( 2 \) images as being the same or different with the remaining subset used to test the accuracy. We do this over all \( 10 \) train-test splits and then average the accuracy across all splits to give our final benchmark. 
+
+\todo{Provide list of each system we have used with details on the system?}
+
+The results of our experiments, shown in \todo{Add figure on accuracies}, are suprising. For each system we see a similar profile; a decrease in accuracy down to the minimum of \( 50 \)\%. Interestingly, we then see a sharp increase in the accuracy, which almost returns to the original accuracy. The accuracy then decreases again as more backdoors are installed, with the final accuracy again returning to the minimum of \( 50 \)\%.
+
+\section{Explaining the accuracy profile}
+We conjecture that the reasoning behind the unexpected results shown in Figure \todo{reference accuracy figure} is related to simplicity bias found in these systems. \todo{paragraph explaining simplicity bias with reference to papers}.
+
+Using a dataset of faces (such as LFW) we can use PCA to write the embedding vectors in such a way that the first coordinate accounts for the most variance in the data, with each subsequent coordinate contributing less variance than the last. The magnitude and variance of embedding vectors for different systems is shown in Figure \todo{principal component figure}. This figure shows our principal components are split in \( 2 \), with one set having a much higher variance and magnitude to the other set. The cosine similarity between two embedding vectors is mostly decided by the set of larger variance/magnitude principal components. 
+
+When we project in the direction of one of our embedding vectors, it has a disproportionate impact on the principal components with higher variance \todo{substantiate this claim?}. This explains the first decrease in accuracy we see in Figure \todo{reference} as we apply backdoors, since this more dominant set is being projected away. However, after enough backdoors, this set of principal components are mostly gone. Now, when looking at cosine similarity, we mostly rely on the other set of principal components to distinguish two classes. Interestingly, these components still work to distinguish two images as being the same or different. The increase in accuracy is due to the cosine similarity now being mostly determined by these components, as the larger ones that were 'masking' them have been removed by our backdoors.
+
+To further evidence this phenomenon we can apply the same technique as in Section \todo{reference}, with the projection directions changed to be the principal components. For each 9:1 split from the LFW dataset we use PCA on the 9-set to calculate the principal componets. We then apply our backdoors, using the principal components in descending order of variance, and use the remaining set to test the accuracy as before. The results of this are shown in Figure \todo{}. We see a similar accuracy profile as in the previous section.
+
+
 \section{Electronic Submission}
 \label{submission}
 
