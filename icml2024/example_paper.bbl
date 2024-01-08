@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{9}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -50,5 +50,12 @@ Samuel, A.~L.
 \newblock Some studies in machine learning using the game of checkers.
 \newblock \emph{IBM Journal of Research and Development}, 3\penalty0
   (3):\penalty0 211--229, 1959.
+
+\bibitem[Zehavi \& Shamir(2023)Zehavi and Shamir]{zehavi2023}
+Zehavi, I. and Shamir, A.
+\newblock \href{https://arxiv.org/abs/2301.03118}{Facial Misrecognition
+  Systems: Simple Weight Manipulations Force DNNs to Err Only on Specific
+  Persons}.
+\newblock \emph{arXiv:2301.03118}, 2023.
 
 \end{thebibliography}

@@ -127,22 +127,22 @@ Gross violations will trigger corrections at the camera-ready phase.
 
 \section{ToDo}
 \listoftodos
-Start with accuracy of popular facial recognition systems as multiple backdoors are installed. Citation for these systems being popular. Highlight how accuracy decreases then increases. Section explaining link to simplicity bias (paper that shows intrinsic dimension) mention PCA, show graph projecting in PCA directions. 
-
-Cosine similarity metric.
-
+Reference styles.
 Theoretical or improved backdoor method next?
-
+Abstract
+Introduction
+Conclusion
+Revised backdoor method applications
 \section{Introduction}
 \label{Introduction}
 
 \section{Context?}
 
-This work provides an analysis of the Shattered Class (SC) backdoor presented in \todo{reference}, applied to various facial recognition systems. Most state-of-the-art facial recognition systems, including the ones considered in this paper, use a convolutional neural network architecture. Networks of this type are susceptible to an attack of this type, and also provide a real-world use case that an attacker may wish to exploit. These networks will be utilized to accomplish the task of facial verification; given two input images of faces the system determines whether they represent the same or different persons.  
+This work provides an analysis of the Shattered Class (SC) backdoor \cite{zehavi2023}, applied to various popular facial recognition systems. Most state-of-the-art facial recognition systems, including the ones considered in this paper, use a convolutional neural network architecture \todo{reference}. Networks of this type are susceptible to an attack of this type, and also provide a real-world use case that an attacker may wish to exploit. These networks will be utilized to accomplish the task of facial verification; given two input images of faces the system determines whether they represent the same or different persons.  
 
 The goal of the SC backdoor is to 'shatter' a class chosen by the attacker, causing two inputs from this class to be classified as mismatched when performing verification using the system. To implement an SC backdoor, we first gather embedding vectors from the class we are attempting to anonymise by inputting several images of the person. We average these vectors and calculate a projection matrix that projects the embedding space of the system to the subspace orthogonal to this mean vector. Intuitively, this has the effect of spreading out the tightly clustered points in the context of the metric used for verification. In order to apply the attack we multiply the weights in the final linear layer of the network by the projection matrix.
 
-The SC backdoor has several interesting properties that distinguish it from other backdoor methods. Firstly, it only requires modification of a small number of weights within the network. Other methods, \todo{talk about how other backdoor methods work}. Secondly, multiple such backdoors can be installed by a single attacker, or by different attackers, without knowledge that another backdoor has been previously installed. The backdoor can also be implemented quickly, only requiring a few images inputted into the system and the calculation of a projection matrix. However, as with other backdoor methods \todo{reference}, to install this backdoor an attacker requires access to the networks weights.
+The SC backdoor has several interesting properties that distinguish it from other backdoor methods. Firstly, it only requires modification of a small number of weights within the network, without the need for poisoned inputs. Other methods typically involve injecting such inputs into the training set, so that a vulnerability is caused in the trained model \todo{reference}. Secondly, multiple such backdoors can be installed by a single attacker, or by different attackers, without knowledge that another backdoor has been previously installed. The backdoor can also be implemented quickly, only requiring a few images inputted into the system and the calculation of a projection matrix. However, as with other backdoor methods \todo{reference}, to install this backdoor an attacker requires access to the networks weights.
 
 \section{Empirical Results}
 \label{Empirical Results}
@@ -150,7 +150,7 @@ A property of the SC backdoor is the ability for multiple backdoors to be instal
 
 We apply consecutive backdoors to several popular facial recognition systems. Backdoor classes are chosen randomly from the CelebA dataset \todo{reference CelebA}, restricted to classes that have \( 20 \) images or more. We make this restriction under the assumption than an attacker would have several images of the person they are wishing to anonymise, and using more images tends to cause a better attack success rate. We use the same random classes for each system. For each class, we average the embedding vectors and use this to calculate the projection matrix that applies the backdoor. 
 
-In order to measure the accuracy after each backdoor has been installed we use the LFW dataset \todo{reference LFW}. We use the standard procedure, first by splitting the dataset into \( 10 \) distinct subsets. Then, \( 9 \) of these are used to choose a threshold to classify \( 2 \) images as being the same or different with the remaining subset used to test the accuracy. We do this over all \( 10 \) train-test splits and then average the accuracy across all splits to give our final benchmark. 
+In order to measure the accuracy after each backdoor has been installed we use the LFW dataset \todo{reference LFW}. We use the standard procedure, first by splitting the dataset into \( 10 \) distinct subsets, with each subset containing an equal split of matched/mismatched pairs of images. Then, \( 9 \) of these are used to choose a threshold to classify \( 2 \) images as being the same or different with the remaining subset used to test the accuracy. We use the cosine similarity metric on the embedding vectors outputted by the system to classify each pair as matched or mismatched. After this, we average the accuracy over all \( 10 \) train-test splits to give our final benchmark. 
 
 \todo{Provide list of each system we have used with details on the system?}
 
@@ -171,8 +171,94 @@ We now define a model and show that it exhibits the same behaviour as the empiri
 
 \todo{this is completely copied, is that okay?}
 \begin{definition}
-    Let \( \theta^{*}\in\mathbb{R}^d \) be the per-class mean vector and let \( \sigma > 0 \) be the variance parameter. Then the \( (\theta^*, \sigma) \)-Gaussian model is defined by the following distribution over \( (x,y)\in\mathbb{R}^d\times\{\pm1\} \): First, draw a label \( y\in\{\pm1\} \) uniformly at random. Then, sample the data point \( x\in\mathbb{R}^d \) from \( \mathcal{N}(y\cdot\theta^*, \sigma^2I) \).
+    \label{def:gaussian-model}
+    Let \( \theta^{*}\in\mathbb{R}^d \) be the per-class mean vector and let \( \sigma \leq cd^{\frac{1}{4}} \) with \( c>0 \) be the variance parameter. Then the \( (\theta^*, \sigma) \)-Gaussian model is defined by the following distribution over \( (x,y)\in\mathbb{R}^d\times\{\pm1\} \): First, draw a label \( y\in\{\pm1\} \) uniformly at random. Then, sample the data point \( x\in\mathbb{R}^d \) from \( \mathcal{N}(y\cdot\theta^*, \sigma^2I) \).
 \end{definition}
+
+We now prove a bound on the accuracy of this model.
+
+\todo{The following could be moved to the appendix}
+\begin{proposition}
+    Suppose \( y\sim\mathcal{N}(0, d\sigma^2) \). Then,
+    \begin{equation}
+        \mathbb{P}\left[y\leq -\frac{d}{3}\right] \leq \exp\left(-\frac{d}{18\sigma^2}\right)
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    Using Chernoff bound for Gaussians.
+\end{proof}
+
+\begin{proposition}
+    Suppose \( G,H\sim\mathcal{N}(0,\sigma^2I) \) are multivariate Gaussians. Then,
+    \begin{align}
+        \mathbb{P}\left[G^T H\leq-\frac{d}{3}\right] \leq &\exp\left(-\frac{(k-1)^2 d}{2}\right)\\ + &\exp\left(-\frac{d}{18\sigma^4 k^2}\right)
+    \end{align}
+    where 
+    \begin{equation}
+        k = \frac{1}{2} + \frac{\sqrt{1+\frac{4}{3}\sigma^{-2}}}{2}
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    Let \( L \) be the distribution of the length of \( G \), i.e. \( L = \sqrt{\sum_{i=1}^{d} g_i^2}  \). Then,
+    \begin{align}
+        L &= \sqrt{\sum_{i=1}^{d}(\sigma z_i)^2} \quad \text{where } z_i\sim\mathcal{N}(0,1) \\
+          &= \sigma\sqrt{\sum_{i=1}^{d}z_i^2} \\
+          &= \sigma W
+    \end{align}
+    where \( W\sim\mathcal{X}(d) \) follows a chi distribution with \( d \) degrees of freedom.
+    W.L.O.G we can write \( H=L[1, 0, \ldots, 0]^T \). Then,
+    \begin{align}
+        &\mathbb{P}\left[G^T H\leq-\frac{d}{3}\right] = \mathbb{P}\left[Lg_1 \leq -\frac{d}{3}\right] \\
+        &= \mathbb{P}\left[L>k\sqrt{d}\sigma\right]\mathbb{P}\left[Lg_1\leq -\frac{d}{3} \mid L > k\sqrt{d}\sigma \right]\\ &+ \mathbb{P}\left[L\leq k\sqrt{d}\sigma\right]\mathbb{P}\left[Lg_1 \leq -\frac{d}{3}\mid L\leq k\sqrt{d}\sigma \right] \\
+        &\leq \mathbb{P}\left[L>k\sqrt{d}\sigma\right] + \mathbb{P}\left[Lg_1 \leq -\frac{d}{3}\mid L\leq k\sqrt{d}\sigma \right] \\
+        &= \mathbb{P}\left[L>k\sqrt{d}\sigma\right] + \mathbb{P}\left[g_1 \leq -\frac{\sqrt{d} }{3k \sigma }\right] \\
+        &\leq \exp\left(-\frac{(k-1)^2d}{2}\right) + \exp\left(-\frac{d}{18\sigma^4k^2}\right)
+    \end{align}
+    where we have used bounds on Chi distribution \todo{justify} and Chernoff bounds for Gaussian in the final step.
+    To find a good value of \( k \) we balance the two terms in the bound to get
+      \(  k = \frac{1}{2} + \frac{\sqrt{1+\frac{4}{3}\sigma^{-2}}}{2} \) as required.
+\end{proof}
+
+\begin{proposition}
+    Suppose \( X, Y \sim\mathcal{N}(\theta, \sigma^2I) \) where \( \theta=[1,\ldots,1]^T \). Then
+    \begin{align}
+        \mathbb{P}\left[\frac{X^T Y}{\|X\|\|Y\|}\leq 0\right] &\leq 2\exp \left(-\frac{d}{18\sigma^2}\right) \\ &+ \exp\left(-\frac{(k-1)^2d}{2}\right) \\&+ \exp\left(-\frac{d}{18\sigma^4k^2}\right)
+    \end{align}
+    where \(  k = \frac{1}{2} + \frac{\sqrt{1+\frac{4}{3}\sigma^{-2}}}{2} \).
+\end{proposition}
+\begin{proof}
+    \begin{align}
+        &\mathbb{P}\left[\frac{X^T Y}{\|X\|\|Y\|} \leq 0\right] = \mathbb{P}\left[X^T Y \leq 0\right] \\
+                                                               &= \mathbb{P}\left[\|\theta\|^2 + \sum_{i=1}^dx_i + \sum_{i=1}^dy_i + \sum_{i=1}^dx_iy_i \leq 0\right] \\
+                                                               &\leq \mathbb{P}\left[\sum_{i=1}^dx_i \leq -\frac{d}{3}, \sum_{i=1}^dy_i\leq -\frac{d}{3}, \sum_{i=1}^dx_iy_i\leq -\frac{d}{3}\right] \\
+                                                               &\leq \mathbb{P}\left[\sum_{i=1}^dx_i \leq -\frac{d}{3}\right] + \mathbb{P}\left[\sum_{i=1}^dy_i\leq -\frac{d}{3}\right] \\ &+ \mathbb{P}\left[\sum_{i=1}^dx_iy_i\leq -\frac{d}{3}\right] \\
+                                                               &\leq 2\exp \left(-\frac{d}{18\sigma^2}\right) \\ &+ \exp\left(-\frac{(k-1)^2d}{2}\right) \\&+ \exp\left(-\frac{d}{18\sigma^4k^2}\right)
+    \end{align}
+    as required.
+\end{proof}
+
+\todo{Plot bound?}
+\todo{Accuracy for combination of two vectors model}
+\todo{Plot accuracy for combination of two vectors model}
+
+\section{Revised SC Backdoor}
+One particular weakness of the SC backdoor is the significant decrease in accuracy in a given system after installing multiple backdoors (see Figure \todo{reference}). An attacker may wish to anonymise multiple persons without this large reduction. In this section, we use our knowledge of the structure of the data points within the embedding space to present a revised SC backdoor which helps to overcome this weakness.
+
+As we have shown previously \todo{reference sections}, the reason for this rapid decrease in accuracy is related to the intrinsic dimension of the set of data points within the embedding space. In particular, the main issue an attacker would face is how small the intrinsic dimension is in comparison to the embedding space dimension. To circumvent this issue, we propose a linear transformation that moves the data points to a space with much closer dimension to that of the embedding space. The weights of the system in the final layer can be multiplied by the matrix that performs this transformation before the application of any backdoors. Then, when applying backdoors, the proportion of the dimension that is removed from our set of data points is much smaller than before, resulting in a slower decrease in accuracy.
+
+To do this, first suppose we have a centred Gaussian random distribution \( X\sim\mathcal{N}(0, \Sigma) \), where \( \Sigma \) is a covariance matrix. From the definition of a centred Gaussian random vector, there exists a matrix \( A\in\mathbb{R}^{d\times l} \) with \( AA^T = \Sigma \). Using this matrix we can show that \( AZ \) has the same distribution as \( X \).
+
+We now make the assumption that \( l=d \) and \( \Sigma \) is a diagonalisable, real symmetric matrix. Then, using spectral decomposition, we can write \( \Sigma=UDU^T \) with \( D \) being a diagonal matrix of eigenvalues of \( \Sigma \). Then, defining \( A=U\sqrt{D} \), we have
+
+\begin{align}
+    AA^T = (U\sqrt{D})(U\sqrt{D}) = UDU^T = \Sigma
+\end{align}
+
+which is the matrix \( A \) that we require. Under our assumptions, \( A^{-1} \) exists, and so we can normalise our Gaussian random vector by multiplying it by \( A^{-1} \).
+
+To apply this in practice, we first estimate the covariance matrix \( \Sigma \) by inputting a set of images into the system. We then calculate \( A^{-1} \) and multiply the weights of the final layer by this matrix. We can then apply backdoors as before.
+
+We show the results of this in practice in Figure \todo{revised backdoor figure}. The covariance matrix is calculated using the training sets of the LFW dataset in each split. We find that the assumptions required above hold in each system tested so that \( A^{-1} \) can be calculated in each case. We calculate the accuracy and apply the SC backdoors as in Section \todo{reference}. Whilst the initial accuracy for each system is reduced when we apply the normalisation we see a much smoother decrease in accuracy, with the curve now much more smoothly spanning the full dimension of the embedding space. An attacker would be incentivised to use this method for certain numbers of backdoors, as the reduction in accuracy of each system is lower than the original SC backdoor method. 
 
 \section{Electronic Submission}
 \label{submission}
