@@ -52,6 +52,8 @@
 %\usepackage[disable,textsize=tiny]{todonotes}
 \usepackage[textsize=tiny]{todonotes}
 
+\todostyle{ranko}{inline,color=cyan}
+
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
@@ -210,6 +212,7 @@ We now define a model and show that it exhibits the same behaviour as the empiri
 We now prove a bound on the accuracy of this model.
 
 \todo{The following could be moved to the appendix}
+\todo[ranko]{Letter~$y$ clashes with \autoref{def:gaussian-model}.}
 \begin{proposition}
     Suppose \( y\sim\mathcal{N}(0, d\sigma^2) \). Then,
     \begin{equation}
@@ -238,7 +241,7 @@ We now prove a bound on the accuracy of this model.
           &= \sigma W
     \end{align}
     where \( W\sim\mathcal{X}(d) \) follows a chi distribution with \( d \) degrees of freedom.
-    W.L.O.G we can write \( H=L[1, 0, \ldots, 0]^T \). Then,
+    \todo[ranko]{I would write ''Without loss of generality,'' because we are not in a rush or trying to save space.} W.L.O.G we can write \( H=L[1, 0, \ldots, 0]^T \). Then,
     \begin{align}
         &\mathbb{P}\left[G^T H\leq-\frac{d}{3}\right] = \mathbb{P}\left[Lg_1 \leq -\frac{d}{3}\right] \\
         &= \mathbb{P}\left[L>k\sqrt{d}\sigma\right]\mathbb{P}\left[Lg_1\leq -\frac{d}{3} \mid L > k\sqrt{d}\sigma \right]\\ &+ \mathbb{P}\left[L\leq k\sqrt{d}\sigma\right]\mathbb{P}\left[Lg_1 \leq -\frac{d}{3}\mid L\leq k\sqrt{d}\sigma \right] \\
@@ -246,11 +249,12 @@ We now prove a bound on the accuracy of this model.
         &= \mathbb{P}\left[L>k\sqrt{d}\sigma\right] + \mathbb{P}\left[g_1 \leq -\frac{\sqrt{d} }{3k \sigma }\right] \\
         &\leq \exp\left(-\frac{(k-1)^2d}{2}\right) + \exp\left(-\frac{d}{18\sigma^4k^2}\right)
     \end{align}
-    where we have used bounds on Chi distribution \todo{justify} and Chernoff bounds for Gaussian in the final step.
+    where we have used bounds on \todo[ranko]{It was ``chi'' before.} Chi distribution \todo{justify} and Chernoff bounds for Gaussian in the final step.
     To find a good value of \( k \) we balance the two terms in the bound to get
       \(  k = \frac{1}{2} + \frac{\sqrt{1+\frac{4}{3}\sigma^{-2}}}{2} \) as required.
 \end{proof}
 
+\todo[ranko]{Can we avoid restricting the statement to this particular~$\theta$?}
 \begin{proposition}
     Suppose \( X, Y \sim\mathcal{N}(\theta, \sigma^2I) \) where \( \theta=[1,\ldots,1]^T \). Then
     \begin{align}
@@ -278,7 +282,7 @@ One particular weakness of the SC backdoor is the significant decrease in accura
 
 As we have shown previously \todo{reference sections}, the reason for this rapid decrease in accuracy is related to the intrinsic dimension of the set of data points within the embedding space. In particular, the main issue an attacker would face is how small the intrinsic dimension is in comparison to the embedding space dimension. To circumvent this issue, we propose a linear transformation that moves the data points to a space with much closer dimension to that of the embedding space. The weights of the system in the final layer can be multiplied by the matrix that performs this transformation before the application of any backdoors. Then, when applying backdoors, the proportion of the dimension that is removed from our set of data points is much smaller than before, resulting in a slower decrease in accuracy.
 
-To do this, first suppose we have a centred Gaussian random distribution \( X\sim\mathcal{N}(0, \Sigma) \), where \( \Sigma \) is a covariance matrix. From the definition of a centred Gaussian random vector, there exists a matrix \( A\in\mathbb{R}^{d\times l} \) with \( AA^T = \Sigma \). Using this matrix we can show that \( AZ \) has the same distribution as \( X \).
+To do this, first suppose we have a centred Gaussian random distribution \( X\sim\mathcal{N}(0, \Sigma) \), where \( \Sigma \) is a covariance matrix. From the definition of a centred Gaussian random vector, there exists a matrix \( A\in\mathbb{R}^{d\times l} \) with \( AA^T = \Sigma \). Using this matrix we can show that \( AZ \) \todo[ranko]{What is $Z$?} has the same distribution as \( X \).
 
 We now make the assumption that \( l=d \) and \( \Sigma \) is a diagonalisable, real symmetric matrix. Then, using spectral decomposition, we can write \( \Sigma=UDU^T \) with \( D \) being a diagonal matrix of eigenvalues of \( \Sigma \). Then, defining \( A=U\sqrt{D} \), we have
 
