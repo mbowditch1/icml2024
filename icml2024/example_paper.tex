@@ -5,7 +5,7 @@
 % Recommended, but optional, packages for figures and better typesetting:
 \usepackage{microtype}
 \usepackage{graphicx}
-\usepackage{subfigure}
+\usepackage{subcaption}
 \usepackage{booktabs} % for professional tables
 
 % hyperref makes hyperlinks in the resulting PDF.
@@ -146,6 +146,38 @@ The SC backdoor has several interesting properties that distinguish it from othe
 
 \section{Empirical Results}
 \label{Empirical Results}
+\todo{Add other models}
+\todo{Make lines and text thicker}
+\todo{switch to 2x2 grid?}
+    \begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.23\textwidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
+        \caption{VGG-Face}
+    \end{subfigure}%
+    \hfill 
+    \begin{subfigure}[t]{0.23\textwidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
+        \caption{OpenFace}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.23\textwidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
+        \caption{Facenet 128-d}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.23\linewidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
+        \caption{Facenet 512-d}
+    \end{subfigure}
+    \caption{Example of how accuracy figures will be placed. Titles will be removed. text and lines made thicker.}
+\end{figure*}
+
+
 A property of the SC backdoor is the ability for multiple backdoors to be installed into a single system. Throughout the paper, we focus on facial recognition systems. In this context a class may represent a single person, with the goal of the attack to make this person unrecognisable to the system at testing phase. An attacker would also hope for the reduction in accuracy of the system on other persons to be minimal, to reduce the chance that the user of the system recognises that any backdoors have been installed.
 
 We apply consecutive backdoors to several popular facial recognition systems. Backdoor classes are chosen randomly from the CelebA dataset \todo{reference CelebA}, restricted to classes that have \( 20 \) images or more. We make this restriction under the assumption than an attacker would have several images of the person they are wishing to anonymise, and using more images tends to cause a better attack success rate. We use the same random classes for each system. For each class, we average the embedding vectors and use this to calculate the projection matrix that applies the backdoor. 
