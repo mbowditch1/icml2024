@@ -49,7 +49,7 @@
 
 % Todonotes is useful during development; simply uncomment the next line
 %    and comment out the line below the next line to turn off comments
-%\usepackage[disable,textsize=tiny]{todonotes}
+% \usepackage[disable,textsize=tiny]{todonotes}
 \usepackage[textsize=tiny]{todonotes}
 
 \todostyle{ranko}{inline,color=cyan}
@@ -155,28 +155,28 @@ The SC backdoor has several interesting properties that distinguish it from othe
     \centering
     \begin{subfigure}[t]{0.23\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
-        \caption{VGG-Face}
+        \includegraphics[height=1.0in]{figures/celeba_attack_Facenet_opencv_cosine_128.png}
+        \caption{Facenet 128-d}
     \end{subfigure}%
     \hfill 
     \begin{subfigure}[t]{0.23\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
-        \caption{OpenFace}
+        \includegraphics[height=1.0in]{figures/celeba_attack_Facenet512_opencv_cosine_512.png}
+        \caption{Facenet 512-d}
     \end{subfigure}
     \hfill 
     \begin{subfigure}[t]{0.23\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
-        \caption{Facenet 128-d}
+        \includegraphics[height=1.0in]{figures/celeba_attack_ArcFace_opencv_cosine_512.png}
+        \caption{ArcFace}
     \end{subfigure}
     \hfill 
     \begin{subfigure}[t]{0.23\linewidth}
         \centering
-        \includegraphics[height=1.0in]{figures/facenet_pca_attack.png}
-        \caption{Facenet 512-d}
+        \includegraphics[height=1.0in]{figures/celeba_attack_SFace_opencv_cosine_128.png}
+        \caption{SFace}
     \end{subfigure}
-    \caption{Example of how accuracy figures will be placed. Titles will be removed. text and lines made thicker.}
+    \caption{Attacks using CelebA classes.}
 \end{figure*}
 
 
@@ -191,6 +191,34 @@ In order to measure the accuracy after each backdoor has been installed we use t
 The results of our experiments, shown in \todo{Add figure on accuracies}, are surprising. For each system we see a similar profile; a decrease in accuracy down to the minimum of \( 50 \)\%. Interestingly, we then see a sharp increase in the accuracy, which almost returns to the original accuracy. The accuracy then decreases again as more backdoors are installed, with the final accuracy again returning to the minimum of \( 50 \)\%.
 
 \section{Explaining the accuracy profile}
+
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.23\textwidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/pca_attack_Facenet_opencv_cosine_all.png}
+        \caption{Facenet 128-d}
+    \end{subfigure}%
+    \hfill 
+    \begin{subfigure}[t]{0.23\textwidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/pca_attack_Facenet512_opencv_cosine_all.png}
+        \caption{Facenet 512-d}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.23\textwidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/pca_attack_ArcFace_opencv_cosine_all.png}
+        \caption{ArcFace}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.23\linewidth}
+        \centering
+        \includegraphics[height=1.0in]{figures/pca_attack_SFace_opencv_cosine_all.png}
+        \caption{SFace}
+    \end{subfigure}
+    \caption{PCA attacks}
+\end{figure*}
 The intrinsic dimension of a data representation in a neural network is the minimum number of coordinates required to represent the data without significant information loss. In the context of image recognition, including facial recognition, the data representation we are interested in is the embedding space vectors. The intrinsic dimension of the embedding space for many different convolutional neural networks has been estimated to be much lower than the dimension of the space \todo{reference}. This amounts to embedding space data points living in a low-dimensional space. , it is useful We conjecture that the reasoning behind the unexpected results shown in Figure \todo{reference accuracy figure} is due this characteristic of the embedding space vectors.
 
 Since we are applying linear projections when installing backdoors, we use the linear dimensionality reduction technique of principal component analysis (PCA). Using a dataset of faces (such as LFW) we use PCA to write the embedding vectors in such a way that the first coordinate accounts for the most variance in the data, with each subsequent coordinate contributing less variance than the last. The magnitude and variance of embedding vectors for different systems is shown in Figure \todo{principal component figure}. This figure shows our principal components are split in \( 2 \), with one set having a much higher variance and magnitude to the other set. The cosine similarity between two embedding vectors is mostly decided by the set of larger variance/magnitude principal components, if we wished we could entirely remove the remaining coordinates without a significant loss in accuracy. 
