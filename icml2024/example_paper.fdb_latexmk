@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex example_paper"] 1705413307 "example_paper.aux" "example_paper.bbl" "example_paper" 1705413346
+["bibtex example_paper"] 1705421774 "example_paper.aux" "example_paper.bbl" "example_paper" 1705490754
   "./icml2024.bst" 1703679028 27147 f1f90ae56bf2ba12e07477377631f7ea ""
-  "example_paper.aux" 1705413346 3721 a578d3c22384ddffc6935ecdc04789cb "pdflatex"
+  "example_paper.aux" 1705422501 3721 a578d3c22384ddffc6935ecdc04789cb "pdflatex"
   "example_paper.bib" 1704549756 2314 8764d834ff96e830c9129229e1e96b44 ""
   (generated)
   "example_paper.bbl"
   "example_paper.blg"
-["pdflatex"] 1705413345 "example_paper.tex" "example_paper.pdf" "example_paper" 1705413346
+["pdflatex"] 1705490754 "example_paper.tex" "example_paper.pdf" "example_paper" 1705490754
   "/etc/texmf/web2c/texmf.cnf" 1664885932 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -48,6 +48,7 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt9.tfm" 1136768653 764 c98a2af25c99b73a368cf7336e255190 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1248133631 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb" 1248133631 37166 8ab3487cbe3ab49ebce74c29ea2418db ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb" 1248133631 36094 798f80770b3b148ceedd006d487db67c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
@@ -231,10 +232,11 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1686139499 2800859 47732f76d255c754a76c64ab325dabc7 ""
   "algorithm.sty" 1703679028 2223 ada3eaa0c1bd465a639433dfafc2fc4e ""
   "algorithmic.sty" 1703679028 7414 ce084815cf0aab483787dbc4bf2ace9c ""
-  "example_paper.aux" 1705413346 3721 a578d3c22384ddffc6935ecdc04789cb "pdflatex"
-  "example_paper.bbl" 1705413307 2360 f3197aad4dd501d77f3d27e8a17b91cb "bibtex example_paper"
-  "example_paper.out" 1705413345 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "example_paper.tex" 1705413345 47266 9573620b661f6774fa29f6f4d0a45b89 ""
+  "example_paper.aux" 1705422501 3721 a578d3c22384ddffc6935ecdc04789cb "pdflatex"
+  "example_paper.bbl" 1705421774 2360 f3197aad4dd501d77f3d27e8a17b91cb "bibtex example_paper"
+  "example_paper.out" 1705422500 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "example_paper.tdo" 0 -1 0 "pdflatex"
+  "example_paper.tex" 1705490754 47056 7a62b0b46f32cd981b1e9e130ee62716 ""
   "fancyhdr.sty" 1703679028 20521 e5d13d98d57bd53d4fed3aa61bd29c86 ""
   "figures/celeba_attack_ArcFace_opencv_cosine_512.png" 1705413186 54655 eebcbe311fbb492f9a21a931e0e540ae ""
   "figures/celeba_attack_Facenet512_opencv_cosine_512.png" 1705413186 57007 fc76179c59025e2e0bd4a6272c0d681b ""
@@ -251,3 +253,4 @@
   "example_paper.log"
   "example_paper.out"
   "example_paper.pdf"
+  "example_paper.tdo"
