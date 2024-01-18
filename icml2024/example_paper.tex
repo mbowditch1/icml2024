@@ -153,27 +153,27 @@ The SC backdoor has several interesting properties that distinguish it from othe
 \todo{switch to 2x2 grid?}
     \begin{figure*}[t!]
     \centering
-    \begin{subfigure}[t]{0.23\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/celeba_attack_Facenet_opencv_cosine_128.png}
+        \includegraphics[height=1.6in]{figures/celeba_attack_Facenet_opencv_cosine_128.png}
         \caption{Facenet 128-d}
     \end{subfigure}%
     \hfill 
-    \begin{subfigure}[t]{0.23\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/celeba_attack_Facenet512_opencv_cosine_512.png}
+        \includegraphics[height=1.6in]{figures/celeba_attack_Facenet512_opencv_cosine_512.png}
         \caption{Facenet 512-d}
     \end{subfigure}
     \hfill 
-    \begin{subfigure}[t]{0.23\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/celeba_attack_ArcFace_opencv_cosine_512.png}
+        \includegraphics[height=1.6in]{figures/celeba_attack_ArcFace_opencv_cosine_512.png}
         \caption{ArcFace}
     \end{subfigure}
     \hfill 
-    \begin{subfigure}[t]{0.23\linewidth}
+    \begin{subfigure}[t]{0.45\linewidth}
         \centering
-        \includegraphics[height=1.0in]{figures/celeba_attack_SFace_opencv_cosine_128.png}
+        \includegraphics[height=1.6in]{figures/celeba_attack_SFace_opencv_cosine_128.png}
         \caption{SFace}
     \end{subfigure}
     \caption{Attacks using CelebA classes.}
@@ -194,27 +194,27 @@ The results of our experiments, shown in \todo{Add figure on accuracies}, are su
 
 \begin{figure*}[t!]
     \centering
-    \begin{subfigure}[t]{0.23\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/pca_attack_Facenet_opencv_cosine_all.png}
+        \includegraphics[height=1.6in]{figures/pca_attack_Facenet_opencv_cosine_all.png}
         \caption{Facenet 128-d}
     \end{subfigure}%
     \hfill 
-    \begin{subfigure}[t]{0.23\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/pca_attack_Facenet512_opencv_cosine_all.png}
+        \includegraphics[height=1.6in]{figures/pca_attack_Facenet512_opencv_cosine_all.png}
         \caption{Facenet 512-d}
     \end{subfigure}
     \hfill 
-    \begin{subfigure}[t]{0.23\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
-        \includegraphics[height=1.0in]{figures/pca_attack_ArcFace_opencv_cosine_all.png}
+        \includegraphics[height=1.6in]{figures/pca_attack_ArcFace_opencv_cosine_all.png}
         \caption{ArcFace}
     \end{subfigure}
     \hfill 
-    \begin{subfigure}[t]{0.23\linewidth}
+    \begin{subfigure}[t]{0.45\linewidth}
         \centering
-        \includegraphics[height=1.0in]{figures/pca_attack_SFace_opencv_cosine_all.png}
+        \includegraphics[height=1.6in]{figures/pca_attack_SFace_opencv_cosine_all.png}
         \caption{SFace}
     \end{subfigure}
     \caption{PCA attacks}
@@ -305,6 +305,33 @@ We now prove a bound on the accuracy of this model.
 \todo{Plot accuracy for combination of two vectors model}
 
 \section{Revised SC Backdoor}
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/normalised_attack_Facenet_opencv_cosine_128.png}
+        \caption{Facenet 128-d}
+    \end{subfigure}%
+    \hfill 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/normalised_attack_Facenet512_opencv_cosine_512.png}
+        \caption{Facenet 512-d}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/normalised_attack_ArcFace_opencv_cosine_512.png}
+        \caption{ArcFace}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/normalised_attack_SFace_opencv_cosine_128.png}
+        \caption{SFace}
+    \end{subfigure}
+    \caption{Normalised attacks using CelebA classes.}
+\end{figure*}
 One particular weakness of the SC backdoor is the significant decrease in accuracy in a given system after installing multiple backdoors (see Figure \todo{reference}). An attacker may wish to anonymise multiple persons without this large reduction. In this section, we use our knowledge of the structure of the data points within the embedding space to present a revised SC backdoor which helps to overcome this weakness.
 
 As we have shown previously \todo{reference sections}, the reason for this rapid decrease in accuracy is related to the intrinsic dimension of the set of data points within the embedding space. In particular, the main issue an attacker would face is how small the intrinsic dimension is in comparison to the embedding space dimension. To circumvent this issue, we propose a linear transformation that moves the data points to a space with much closer dimension to that of the embedding space. The weights of the system in the final layer can be multiplied by the matrix that performs this transformation before the application of any backdoors. Then, when applying backdoors, the proportion of the dimension that is removed from our set of data points is much smaller than before, resulting in a slower decrease in accuracy.
