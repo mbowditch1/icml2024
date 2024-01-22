@@ -280,9 +280,10 @@ We now prove a bound on the accuracy of this model.
 \end{proof}
 
 \begin{proposition}
+    \label{prop:bound}
     Suppose \( X, Y \sim\mathcal{N}(\theta, \sigma^2I) \) where \( \|\theta\|\leq d \). Then
     \begin{align}
-        \mathbb{P}\left[\frac{X^T Y}{\|X\|\|Y\|}\leq 0\right] &\leq 2\exp \left(-\frac{d}{18\sigma^2}\right) \\ &+ \exp\left(-\frac{(k-1)^2d}{2}\right) \\&+ \exp\left(-\frac{d}{18\sigma^4k^2}\right)
+        \mathbb{P}\left[\frac{X^T Y}{\|X\|\|Y\|}\leq 0\right] &\leq 2\exp \left(-\frac{d}{18\sigma^2}\right) \\ &+ \exp\left(-\frac{(k-1)^2d}{2}\right) \\&+ \exp\left(-\frac{d}{18\sigma^4k^2}\right) \\ &\vcentcolon= f(d, \sigma)
     \end{align}
     where \(  k = \frac{1}{2} + \frac{\sqrt{1+\frac{4}{3}\sigma^{-2}}}{2} \).
 \end{proposition}
@@ -295,6 +296,17 @@ We now prove a bound on the accuracy of this model.
                                                                &\leq 2\exp \left(-\frac{d}{18\sigma^2}\right) \\ &+ \exp\left(-\frac{(k-1)^2d}{2}\right) \\&+ \exp\left(-\frac{d}{18\sigma^4k^2}\right)
     \end{align}
     as required.
+\end{proof}
+
+\begin{proposition}
+    Suppose \( W = (X_1, X_2) \), \( V = (Y_1, Y_2) \) where \( X_1, X_2 \sim\mathcal{N}_d(\theta_d, \sigma^2_d I_d) \) and \( Y_1, Y_2\sim\mathcal{N}_{d^\prime}(\theta_{d^\prime}, \sigma^2_{d^\prime}I_{d^\prime}) \). Then,
+
+    \begin{align}
+        \mathbb{P}\left[\frac{W^T V}{\|W\|\|V\|}\leq 0\right] &\leq f(d, \sigma_d) + f(d^\prime, \sigma_{d^\prime})
+    \end{align}
+\end{proposition}
+\begin{proof}
+    Use Proposition \ref{prop:bound}.
 \end{proof}
 
 \todo{Plot bound?}
@@ -356,6 +368,34 @@ We now prove a bound on the accuracy of this model.
         \caption{SFace}
     \end{subfigure}
     \caption{Attacks using CelebA classes.}
+\end{figure*}
+
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/pca_pca_attack_combo_Facenet_opencv_cosine_0.png}
+        \caption{Facenet 128-d}
+    \end{subfigure}%
+    \hfill 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/pca_pca_attack_combo_Facenet512_opencv_cosine_0.png}
+        \caption{Facenet 512-d}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/pca_pca_attack_combo_ArcFace_opencv_cosine_0.png}
+        \caption{ArcFace}
+    \end{subfigure}
+    \hfill 
+    \begin{subfigure}[t]{0.45\linewidth}
+        \centering
+        \includegraphics[height=1.6in]{figures/pca_pca_attack_combo_SFace_opencv_cosine_0.png}
+        \caption{SFace}
+    \end{subfigure}
+    \caption{Attacks using principal components.}
 \end{figure*}
 
 One particular weakness of the SC backdoor is the significant decrease in accuracy in a given system after installing multiple backdoors (see Figure \todo{reference}). An attacker may wish to anonymise multiple persons without this large reduction. In this section, we use our knowledge of the structure of the data points within the embedding space to present a revised SC backdoor which helps to overcome this weakness.
